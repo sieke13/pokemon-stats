@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import BattleCounter from './components/BattleCounter';
-import StatsDisplay from './components/StatsDisplay';
 import Header from './components/Header';
-import GameCalendar from './components/GameCalendar';
-import PokemonTeam from './components/PokemonTeam';
 import { TeamProvider } from './context/TeamContext';
 import Teams from './pages/Teams';
 import Home from './pages/Home';
