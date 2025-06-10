@@ -1,0 +1,52 @@
+.header {
+  padding: 1.5rem 1rem;
+  background: linear-gradient(to bottom, #2a75bb, var(--bg-secondary));
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-bottom: 3px solid var(--pokemon-yellow);
+}
+
+.header-title {
+  font-family: 'Pokemon', sans-serif;
+  font-size: 2.5rem;
+  margin: 0;
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--pokemon-yellow);
+  text-shadow: 
+    -2px -2px 0 var(--pokemon-blue),
+    2px -2px 0 var(--pokemon-blue),
+    -2px 2px 0 var(--pokemon-blue),
+    2px 2px 0 var(--pokemon-blue),
+    4px 4px 0 var(--pokemon-blue);
+  letter-spacing: 3px;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+}
+
+.header-nav {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+}
+
+.header-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.header-nav a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.header-nav a:hover {
+  color: #fbd743;
+}

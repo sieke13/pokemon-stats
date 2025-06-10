@@ -1,0 +1,117 @@
+.battle-counter {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  margin: 1rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+.victory {
+  background-color: var(--accent-green);
+  color: white;
+}
+
+.victory:hover {
+  background-color: var(--hover-green);
+}
+
+.victory-remove {
+  background-color: #2d4d2e;
+  color: white;
+}
+
+.victory-remove:hover {
+  background-color: #1f3320;
+}
+
+.defeat {
+  background-color: var(--accent-red);
+  color: white;
+}
+
+.defeat:hover {
+  background-color: var(--hover-red);
+}
+
+.defeat-remove {
+  background-color: #4d2d2d;
+  color: white;
+}
+
+.defeat-remove:hover {
+  background-color: #331f1f;
+}
+
+/* Ajustes para dispositivos móveis */
+@media screen and (max-width: 768px) {
+  .battle-counter {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .button {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Ajustes específicos para Poco F5/F6 Pro */
+@media screen and (max-width: 1080px) and (min-height: 2400px) {
+  .battle-counter {
+    padding: 1.2rem;
+    margin: 0.8rem;
+  }
+
+  .button-group {
+    gap: 1rem;
+  }
+
+  .button {
+    width: 90%;
+    max-width: 350px;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Ajustes para modo landscape */
+@media screen and (max-width: 2400px) and (max-height: 1080px) {
+  .button-group {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .button {
+    min-width: 150px;
+  }
+}
