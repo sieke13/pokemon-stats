@@ -85,13 +85,9 @@ const TeamManager: React.FC = () => {
   return (
     <div className="team-manager">
       <h2>Mis Equipos Pokemon</h2>
-      
       <div className="teams-list">
         {teams.map(team => (
-          <div 
-            key={team.id} 
-            className={`team-item ${currentTeam?.id === team.id ? 'active' : ''}`}
-          >
+          <div key={team.id} className={`team-item ${currentTeam?.id === team.id ? 'active' : ''}`}>
             <div className="team-content">
               <div className="team-info">
                 <h3>{team.name}</h3>
@@ -184,30 +180,17 @@ const TeamManager: React.FC = () => {
               <button 
                 className="accept-button"
                 onClick={() => handleSelectPokemon(searchTerm)}
-                disabled={!searchTerm.trim()}ed={!searchTerm.trim()}
+                disabled={!searchTerm.trim()}
               >
-                AceptarAceptar
-              </button></button>
-              <button       <button 
-                className="cancel-button"      className="cancel-button"
-                onClick={() => {            onClick={() => {
-                  setShowSearchDialog(false);                setShowSearchDialog(false);
-                  setSearchTerm('');                  setSearchTerm('');
-                  setSuggestions([]);tions([]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-export default TeamManager;};  );    </div>      )}        </div>          </div>            </div>              </button>                Cancelar              >                }}                }}
+                Aceptar
+              </button>
+              <button 
+                className="cancel-button"
+                onClick={() => {
+                  setShowSearchDialog(false);
+                  setSearchTerm('');
+                  setSuggestions([]);
+                }}
               >
                 Cancelar
               </button>

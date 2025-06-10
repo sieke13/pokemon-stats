@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
 const Header: React.FC = () => {
@@ -8,8 +8,16 @@ const Header: React.FC = () => {
       <h1 className="header-title">Pokemon Go Battle Stats</h1>
       <nav className="header-nav">
         <ul>
-          <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/teams">Equipos</Link></li>
+          <li>
+            <NavLink to="/" className="nav-link">
+              Inicio
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/teams" className="nav-link">
+              Equipos
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>
