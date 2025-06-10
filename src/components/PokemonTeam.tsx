@@ -6,7 +6,6 @@ import './PokemonTeam.css';
 interface Pokemon {
   id: number;
   name: string;
-  nickname?: string;
   spriteUrl?: string;
   pokedexNumber?: number;
 }
@@ -79,7 +78,6 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
     newTeam[index] = {
       id: Date.now(),
       name: pokemonData.name,
-      nickname: '',
       spriteUrl: pokemonData.sprites.front_default,
       pokedexNumber: pokemonData.id
     };
@@ -108,14 +106,6 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
     const newTeam = [...team];
     newTeam[index] = null;
     onTeamUpdate(newTeam);
-  };
-
-  const updatePokemon = (index: number, updates: Partial<Pokemon>) => {
-    if (team[index]) {
-      const newTeam = [...team];
-      newTeam[index] = { ...team[index], ...updates } as Pokemon;
-      onTeamUpdate(newTeam);
-    }
   };
 
   const handleSaveTeam = () => {
@@ -171,13 +161,6 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
                 )}
                 <div className="pokemon-info">
                   <span className="pokemon-number">#{pokemon.pokedexNumber}</span>
-                  <input
-                    type="text"
-                    value={pokemon.nickname || ''}
-                    onChange={(e) => updatePokemon(index, { nickname: e.target.value })}
-                    placeholder="Apodo"
-                    className="nickname-input"
-                  />
                   <span className="pokemon-name">{pokemon.name}</span>
                 </div>
                 <button 
