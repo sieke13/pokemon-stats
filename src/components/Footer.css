@@ -1,0 +1,13 @@
+.footer {
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+  background-color: var(--bg-secondary);
+  border-top: 2px solid var(--pokemon-blue);
+}
+
+.footer p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}

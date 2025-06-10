@@ -42,8 +42,9 @@
   align-items: center;
   padding: 1rem;
   background-color: var(--bg-primary);
-  border-radius: 8px;
-  border: 2px solid transparent;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .team-item.active {
@@ -63,6 +64,8 @@
 .team-actions {
   display: flex;
   gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .select-team-button,
@@ -91,10 +94,10 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin: 1rem 0;
-  padding: 0.5rem;
+  padding: 1rem;
   background-color: var(--bg-secondary);
   border-radius: 8px;
+  margin: 1rem 0;
 }
 
 .team-pokemon-card {
@@ -186,6 +189,12 @@
   .team-pokemon {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .team-pokemon-card {
+    padding: 0.5rem;
+    min-height: 100px;
   }
 
   .pokemon-sprite {
@@ -197,14 +206,91 @@
     font-size: 0.8rem;
   }
 
-  .pokemon-edit-overlay {
-    opacity: 1;
-    width: 20px;
-    height: 20px;
+  .team-actions {
+    flex-direction: row;
+    gap: 0.5rem;
   }
-  
-  .edit-icon {
-    font-size: 12px;
+
+  .select-team-button,
+  .delete-team-button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    flex: 1;
+  }
+
+  .search-dialog-overlay .search-container {
+    width: 95%;
+    max-width: none;
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .search-input {
+    padding: 0.6rem;
+    font-size: 1rem;
+  }
+
+  .suggestions-list {
+    max-height: 40vh;
+  }
+
+  .suggestion-item {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .team-pokemon {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .team-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .pokemon-count {
+    font-size: 0.8rem;
+  }
+
+  .team-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .select-team-button,
+  .delete-team-button {
+    width: 100%;
+  }
+
+  .dialog-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .dialog-buttons button {
+    width: 100%;
+  }
+}
+
+/* Mejoras de accesibilidad táctil */
+@media (hover: none) {
+  .team-pokemon-card,
+  .suggestion-item,
+  button {
+    cursor: default;
+  }
+
+  .team-pokemon-card {
+    min-height: 110px;
+  }
+
+  .team-actions button {
+    min-height: 44px;
+  }
+
+  .suggestion-item {
+    padding: 0.8rem;
   }
 }
 

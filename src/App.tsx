@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import { TeamProvider } from './context/TeamContext';
 import Teams from './pages/Teams';
 import Home from './pages/Home';
@@ -98,27 +99,30 @@ const App: React.FC = () => {
   return (
     <TeamProvider>
       <Router>
-        <div>
+        <div className="app-container">
           <Header />
-          <Routes>
-            <Route path="/" element={
-              <Home 
-                victories={victories}
-                defeats={defeats}
-                winPercentage={winPercentage}
-                playedDates={playedDates}
-                team={team}
-                onDateToggle={handleDateToggle}
-                onTeamUpdate={handleTeamUpdate}
-                incrementVictories={incrementVictories}
-                incrementDefeats={incrementDefeats}
-                decrementVictories={decrementVictories}
-                decrementDefeats={decrementDefeats}
-                handleReset={handleReset}
-              />
-            } />
-            <Route path="/teams" element={<Teams />} />
-          </Routes>
+          <main>
+            <Routes>
+              <Route path="/" element={
+                <Home 
+                  victories={victories}
+                  defeats={defeats}
+                  winPercentage={winPercentage}
+                  playedDates={playedDates}
+                  team={team}
+                  onDateToggle={handleDateToggle}
+                  onTeamUpdate={handleTeamUpdate}
+                  incrementVictories={incrementVictories}
+                  incrementDefeats={incrementDefeats}
+                  decrementVictories={decrementVictories}
+                  decrementDefeats={decrementDefeats}
+                  handleReset={handleReset}
+                />
+              } />
+              <Route path="/teams" element={<Teams />} />
+            </Routes>
+          </main>
+          <Footer />
         </div>
       </Router>
     </TeamProvider>
