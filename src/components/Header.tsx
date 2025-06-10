@@ -5,7 +5,13 @@ import './Header.css';
 const Header: React.FC = () => {
   return (
     <header className="header">
-      <h1 className="header-title">Pokemon Go Battle Stats</h1>
+      <div className="header-banner">
+        <img 
+          src="/assets/header-banner.jpg"  // Path from public folder
+          alt="Pokemon Stats Banner" 
+          className="header-image"
+        />
+      </div>
       <nav className="header-nav">
         <ul>
           <li>

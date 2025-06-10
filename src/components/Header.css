@@ -1,8 +1,7 @@
 .header {
-  padding: 1.5rem 1rem;
-  background: linear-gradient(to bottom, #2a75bb, var(--bg-secondary));
+  background-color: var(--bg-secondary);
   margin-bottom: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-bottom: 3px solid var(--pokemon-yellow);
 }
 
@@ -24,11 +23,32 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.header-banner {
+  width: 100%;
+  height: 180px; /* Aumentamos la altura para mejor visualización */
+  position: relative;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-image {
+  width: 85%; /* Cambiamos a width 85% */
+  height: auto; /* Altura automática */
+  min-width: 1200px; /* Reducimos el ancho mínimo */
+  max-width: 1920px; /* Añadimos un ancho máximo */
+  object-fit: cover;
+  object-position: center 40%; /* Ajustamos la posición vertical */
+  display: block;
+  margin: 0 auto;
+  transform: scale(1.1); /* Reducimos el zoom para mejor ajuste */
+}
+
 .header-nav {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 25px;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
 }
 
 .header-nav ul {
@@ -49,4 +69,35 @@
 
 .header-nav a:hover {
   color: #fbd743;
+}
+
+/* Ajustes responsive */
+@media screen and (max-width: 1024px) {
+  .header-banner {
+    height: 150px;
+  }
+  .header-image {
+    min-width: 1000px;
+    transform: scale(1.3);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header-banner {
+    height: 120px;
+  }
+  .header-image {
+    min-width: 800px;
+    transform: scale(1.4);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header-banner {
+    height: 100px;
+  }
+  .header-image {
+    min-width: 600px;
+    transform: scale(1.5);
+  }
 }
