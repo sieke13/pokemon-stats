@@ -8,21 +8,32 @@
 
 :root {
   --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
+  --bg-secondary: rgba(26, 26, 26, 0.9);
   --text-primary: #ffffff;
   --text-secondary: #b3b3b3;
   --accent-green: #4CAF50;
   --accent-red: #f44336;
-  --pokemon-yellow: #fbd743;
-  --pokemon-blue: #3c5aa6;
+  --pokemon-yellow: #FFCB05;
+  --pokemon-blue: #2A75BB;
   --pokemon-outline: #2a75bb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 0;
+  min-height: 100vh;
+  background-image: url('/assets/background1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 h1, h2 {
@@ -56,10 +67,13 @@ h1 {
 }
 
 #root {
+  min-height: 100vh;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 button {
