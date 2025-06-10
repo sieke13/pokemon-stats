@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { useTeams } from '../context/TeamContext';
 import './PokemonTeam.css';
 
 interface Pokemon {
@@ -32,6 +33,9 @@ interface PokemonTeamProps {
 }
 
 const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
+  const { addTeam } = useTeams();
+  const [teamName, setTeamName] = useState('');
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
@@ -44,6 +48,11 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=898');
         const data: PokemonListResponse = await response.json();
         setPokemonList(data.results.map(pokemon => pokemon.name));
+        
+        // Initialize team with 3 null slots if empty
+        if (team.length !== 3) {
+          onTeamUpdate(Array(3).fill(null));
+        }
       } catch (error) {
         console.error('Error cargando lista de Pokemon:', error);
       }
@@ -109,9 +118,45 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
     }
   };
 
+  const handleSaveTeam = () => {
+    if (teamName.trim() && team.some(pokemon => pokemon !== null)) {
+      addTeam(teamName, team); // Ahora pasamos el equipo completo
+      setTeamName('');
+      setShowSaveDialog(false);
+    }
+  };
+
+  const handleNewTeam = () => {
+    // Limpiar el equipo actual
+    onTeamUpdate(Array(3).fill(null));
+    // Cerrar cualquier diálogo abierto
+    setShowSaveDialog(false);
+    setSelectedSlot(null);
+    setSearchTerm('');
+    setSuggestions([]);
+  };
+
   return (
     <div className="pokemon-team">
-      <h2>Mi Equipo Pokemon</h2>
+      <div className="team-header">
+        <h2>Mi Equipo Pokemon</h2>
+        <div className="team-buttons">
+          <button 
+            className="new-team-button"
+            onClick={handleNewTeam}
+          >
+            Nuevo Equipo
+          </button>
+          <button 
+            className="save-team-button"
+            onClick={() => setShowSaveDialog(true)}
+            disabled={!team.some(pokemon => pokemon !== null)}
+          >
+            Guardar Equipo
+          </button>
+        </div>
+      </div>
+
       <div className="team-grid">
         {team.map((pokemon, index) => (
           <div key={index} className="pokemon-slot">
@@ -180,6 +225,39 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSaveDialog && (
+        <div className="save-dialog-overlay">
+          <div className="save-dialog">
+            <h3>Guardar Equipo</h3>
+            <input
+              type="text"
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              placeholder="Nombre del equipo"
+              className="team-name-input"
+            />
+            <div className="dialog-buttons">
+              <button 
+                className="save-button"
+                onClick={handleSaveTeam}
+                disabled={!teamName.trim()}
+              >
+                Guardar
+              </button>
+              <button 
+                className="cancel-button"
+                onClick={() => {
+                  setShowSaveDialog(false);
+                  setTeamName('');
+                }}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         </div>

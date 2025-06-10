@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import BattleCounter from './components/BattleCounter';
 import StatsDisplay from './components/StatsDisplay';
 import Header from './components/Header';
 import GameCalendar from './components/GameCalendar';
 import PokemonTeam from './components/PokemonTeam';
+import { TeamProvider } from './context/TeamContext';
+import Teams from './pages/Teams';
+import Home from './pages/Home';
 
 interface Pokemon {
   id: number;
@@ -96,29 +100,32 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <Header />
-      <GameCalendar 
-        playedDates={playedDates}
-        onDateToggle={handleDateToggle}
-      />
-      <PokemonTeam 
-        team={team}
-        onTeamUpdate={handleTeamUpdate}
-      />
-      <BattleCounter 
-        onVictory={incrementVictories}
-        onDefeat={incrementDefeats}
-        onRemoveVictory={decrementVictories}
-        onRemoveDefeat={decrementDefeats}
-      />
-      <StatsDisplay 
-        victories={victories} 
-        defeats={defeats} 
-        winPercentage={winPercentage}
-        onReset={handleReset}
-      />
-    </div>
+    <TeamProvider>
+      <Router>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/" element={
+              <Home 
+                victories={victories}
+                defeats={defeats}
+                winPercentage={winPercentage}
+                playedDates={playedDates}
+                team={team}
+                onDateToggle={handleDateToggle}
+                onTeamUpdate={handleTeamUpdate}
+                incrementVictories={incrementVictories}
+                incrementDefeats={incrementDefeats}
+                decrementVictories={decrementVictories}
+                decrementDefeats={decrementDefeats}
+                handleReset={handleReset}
+              />
+            } />
+            <Route path="/teams" element={<Teams />} />
+          </Routes>
+        </div>
+      </Router>
+    </TeamProvider>
   );
 };
 
