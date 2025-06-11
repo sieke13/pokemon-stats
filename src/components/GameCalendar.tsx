@@ -33,7 +33,7 @@ const GameCalendar: React.FC<GameCalendarProps> = ({ playedDates, onDateToggle }
     }
   };
 
-  const formatMonthYear = (locale: string | undefined, date: Date) => {
+  const formatMonthYear = (_locale: string | undefined, date: Date) => {
     const monthNames = [
       'january', 'february', 'march', 'april', 'may', 'june',
       'july', 'august', 'september', 'october', 'november', 'december'
@@ -49,7 +49,7 @@ const GameCalendar: React.FC<GameCalendarProps> = ({ playedDates, onDateToggle }
         value={value}
         tileClassName={tileClassName}
         onClickDay={handleDateClick}
-        formatShortWeekday={(locale, date) => {
+        formatShortWeekday={(_locale, date) => {
           const day = date.getDay();
           const weekDays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
           return t(`calendar.weekDays.${weekDays[day]}`);
