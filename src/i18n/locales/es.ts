@@ -11,7 +11,7 @@ export const es = {
       reset: "Resetear Estadísticas"
     },
     stats: {
-      title: "Estadísticas",
+      statistics: "Estadísticas",
       victories: "Victorias",
       defeats: "Derrotas",
       winPercentage: "Porcentaje de Victoria",

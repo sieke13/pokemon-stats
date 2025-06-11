@@ -15,7 +15,9 @@ export const hi = {
       totalGames: "कुल खेल",
       victories: "विजय",
       defeats: "हार",
-      winRate: "जीत का प्रतिशत"
+      winRate: "जीत दर",
+      classification: "श्रेणी",
+      statistics: "सांख्यिकी"  // Nueva traducción para "Statistics"
     },
     nav: {
       home: "होम",
