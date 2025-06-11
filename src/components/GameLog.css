@@ -1,0 +1,88 @@
+.game-log {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.game-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.games-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.game-entry {
+  padding: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-date {
+  color: var(--text-secondary);
+}
+
+.no-games {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+/* Estilos específicos para texto en Hindi */
+[lang='hi'] .game-log {
+  font-family: 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+}
+
+[lang='hi'] .game-stats {
+  font-size: 0.95rem;
+}
+
+[lang='hi'] .stat-item h3 {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+[lang='hi'] .game-entry {
+  font-size: 0.9rem;
+}
+
+/* Ajustes específicos para el calendario en Hindi */
+[lang='hi'] .calendar-header,
+[lang='hi'] .calendar-day {
+  font-family: 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+  font-size: 0.9rem;
+}
+
+/* Ajustes para botones en Hindi */
+[lang='hi'] .button {
+  font-family: 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+  font-size: 0.9rem;
+  padding: 0.7rem 1rem;
+}
+
+/* Media queries para texto en Hindi en móvil */
+@media screen and (max-width: 768px) {
+  [lang='hi'] .stat-item h3 {
+    font-size: 0.85rem;
+  }
+
+  [lang='hi'] .game-stats {
+    font-size: 0.9rem;
+  }
+}

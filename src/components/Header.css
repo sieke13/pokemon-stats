@@ -70,17 +70,19 @@ body {
 }
 
 .header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem;
   background-color: var(--bg-secondary);
 }
 
 .header-nav ul {
-  list-style: none;
+  display: flex;
+  gap: 2rem;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
+  list-style: none;
 }
 
 .header-nav li {
@@ -142,6 +144,14 @@ body {
     width: 100%;
     min-width: 700px;
     transform: scale(0.7);
+  }
+  
+  .header-nav {
+    padding: 0.8rem;
+  }
+  
+  .header-nav ul {
+    gap: 1rem;
   }
 }
 

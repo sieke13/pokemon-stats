@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './StatsDisplay.css';
 
 interface StatsDisplayProps {
@@ -14,6 +15,8 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({
   winPercentage,
   onReset 
 }) => {
+  const { t } = useTranslation();
+
   // Cálculo aproximado del ELO basado en Pokémon GO
   const calculateElo = (wins: number, losses: number): number => {
     const baseElo = 1000;
@@ -33,34 +36,34 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({
   };
 
   const handleReset = () => {
-    if (window.confirm('¿Estás seguro de que quieres resetear todas las estadísticas?')) {
+    if (window.confirm(t('confirmReset'))) {
       onReset?.();
     }
   };
 
   return (
     <div className="stats-container">
-      <h2>Estadísticas</h2>
+      <h2>{t('stats.title')}</h2>
       <div className="stats-grid">
         <div className="stat-box victories">
-          <h3>Victorias</h3>
+          <h3>{t('stats.victories')}</h3>
           <p>{victories}</p>
         </div>
         <div className="stat-box defeats">
-          <h3>Derrotas</h3>
+          <h3>{t('stats.defeats')}</h3>
           <p>{defeats}</p>
         </div>
         <div className="stat-box percentage">
-          <h3>Porcentaje de Victoria</h3>
+          <h3>{t('stats.winPercentage')}</h3>
           <p>{winPercentage.toFixed(1)}%</p>
         </div>
-        <div className={`stat-box elo ${getRank(currentElo).toLowerCase()}`}>
-          <h3>Clasificación</h3>
-          <p>{currentElo} ({getRank(currentElo)})</p>
+        <div className="stat-box classification">
+          <h3>{t('stats.classification')}</h3>
+          <p>{currentElo} ({t(`stats.ranks.${getRank(currentElo).toLowerCase()}`)})</p>
         </div>
       </div>
       <button className="reset-button" onClick={handleReset}>
-        Resetear Estadísticas
+        {t('buttons.reset')}
       </button>
     </div>
   );

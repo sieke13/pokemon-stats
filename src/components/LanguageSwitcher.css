@@ -1,0 +1,52 @@
+.language-switcher {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.flag-button {
+  background: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.flag-button:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.flag-button.active {
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.flag-button svg {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+@media screen and (max-width: 768px) {
+  .flag-button {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .flag-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .language-switcher {
+    gap: 0.5rem;
+  }
+}

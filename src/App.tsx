@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { TeamProvider } from './context/TeamContext';
@@ -22,6 +23,16 @@ interface StoredData {
 }
 
 const App: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    document.title = t('header.title');
+  }, [t, i18n.language]);
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
   const [victories, setVictories] = useState(() => {
     const stored = localStorage.getItem('pokemonStats');
     return stored ? JSON.parse(stored).victories : 0;

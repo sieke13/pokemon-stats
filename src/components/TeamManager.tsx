@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTeams } from '../context/TeamContext';
+import { useTranslation } from 'react-i18next';
 import './TeamManager.css';
 
 interface PokemonApiResponse {
@@ -11,6 +12,7 @@ interface PokemonApiResponse {
 }
 
 const TeamManager: React.FC = () => {
+  const { t } = useTranslation();
   const { teams, currentTeam, deleteTeam, setCurrentTeam, updateTeam } = useTeams();
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(null);
@@ -84,7 +86,7 @@ const TeamManager: React.FC = () => {
 
   return (
     <div className="team-manager">
-      <h2>Mis Equipos Pokemon</h2>
+      <h2>{t('teamManager.title')}</h2>
       <div className="teams-list">
         {teams.map(team => (
           <div key={team.id} className={`team-item ${currentTeam?.id === team.id ? 'active' : ''}`}>
@@ -92,7 +94,7 @@ const TeamManager: React.FC = () => {
               <div className="team-info">
                 <h3>{team.name}</h3>
                 <span className="pokemon-count">
-                  {team.pokemon.filter(Boolean).length}/3 Pokemon
+                  {team.pokemon.filter(Boolean).length}/3 {t('teamManager.pokemonCount')}
                 </span>
               </div>
               
@@ -121,7 +123,7 @@ const TeamManager: React.FC = () => {
                         </div>
                       </>
                     ) : (
-                      <span className="empty-slot-text">Vacío</span>
+                      <span className="empty-slot-text">{t('teamManager.emptySlot')}</span>
                     )}
                   </div>
                 ))}
@@ -132,13 +134,13 @@ const TeamManager: React.FC = () => {
                   onClick={() => setCurrentTeam(team.id)}
                   className="select-team-button"
                 >
-                  Seleccionar
+                  {t('teamManager.buttons.select')}
                 </button>
                 <button 
                   onClick={() => deleteTeam(team.id)}
                   className="delete-team-button"
                 >
-                  Eliminar
+                  {t('teamManager.buttons.delete')}
                 </button>
               </div>
             </div>
@@ -149,13 +151,13 @@ const TeamManager: React.FC = () => {
       {showSearchDialog && (
         <div className="search-dialog-overlay">
           <div className="search-container">
-            <h3>Seleccionar Pokemon</h3>
+            <h3>{t('teamManager.search.title')}</h3>
             <div className="search-input-container">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Buscar Pokemon..."
+                placeholder={t('teamManager.search.placeholder')}
                 className="search-input"
                 autoComplete="off"
               />
@@ -182,7 +184,7 @@ const TeamManager: React.FC = () => {
                 onClick={() => handleSelectPokemon(searchTerm)}
                 disabled={!searchTerm.trim()}
               >
-                Aceptar
+                {t('teamManager.search.accept')}
               </button>
               <button 
                 className="cancel-button"
@@ -192,7 +194,7 @@ const TeamManager: React.FC = () => {
                   setSuggestions([]);
                 }}
               >
-                Cancelar
+                {t('teamManager.search.cancel')}
               </button>
             </div>
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './GameCalendar.css';
+import { useTranslation } from 'react-i18next';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -12,6 +13,7 @@ interface GameCalendarProps {
 }
 
 const GameCalendar: React.FC<GameCalendarProps> = ({ playedDates, onDateToggle }) => {
+  const { t, i18n } = useTranslation();
   const [value, onChange] = useState<Value>(new Date());
 
   const tileClassName = ({ date }: { date: Date }) => {
@@ -31,14 +33,29 @@ const GameCalendar: React.FC<GameCalendarProps> = ({ playedDates, onDateToggle }
     }
   };
 
+  const formatMonthYear = (locale: string | undefined, date: Date) => {
+    const monthNames = [
+      'january', 'february', 'march', 'april', 'may', 'june',
+      'july', 'august', 'september', 'october', 'november', 'december'
+    ];
+    return `${t(`calendar.months.${monthNames[date.getMonth()]}`)} ${date.getFullYear()}`;
+  };
+
   return (
     <div className="calendar-container">
-      <h2>Registro de Juego</h2>
+      <h2>{t('calendar.title')}</h2>
       <Calendar 
         onChange={onChange}
         value={value}
         tileClassName={tileClassName}
         onClickDay={handleDateClick}
+        formatShortWeekday={(locale, date) => {
+          const day = date.getDay();
+          const weekDays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+          return t(`calendar.weekDays.${weekDays[day]}`);
+        }}
+        formatMonthYear={formatMonthYear}
+        locale={i18n.language}
       />
     </div>
   );

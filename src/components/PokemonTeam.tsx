@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useTeams } from '../context/TeamContext';
+import { useTranslation } from 'react-i18next';
 import './PokemonTeam.css';
 
 interface Pokemon {
@@ -32,6 +33,7 @@ interface PokemonTeamProps {
 }
 
 const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
+  const { t } = useTranslation();
   const { addTeam } = useTeams();
   const [teamName, setTeamName] = useState('');
   const [showSaveDialog, setShowSaveDialog] = useState(false);
@@ -109,40 +111,40 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
   };
 
   const handleSaveTeam = () => {
-    if (teamName.trim() && team.some(pokemon => pokemon !== null)) {
+    if (window.confirm(t('teamActions.confirmSave'))) {
       addTeam(teamName, team); // Ahora pasamos el equipo completo
       setTeamName('');
       setShowSaveDialog(false);
+      alert(t('teamActions.teamSaved'));
     }
   };
 
   const handleNewTeam = () => {
-    // Limpiar el equipo actual
-    onTeamUpdate(Array(3).fill(null));
-    // Cerrar cualquier diálogo abierto
-    setShowSaveDialog(false);
-    setSelectedSlot(null);
-    setSearchTerm('');
-    setSuggestions([]);
+    if (window.confirm(t('teamActions.confirmNew'))) {
+      // Limpiar el equipo actual
+      onTeamUpdate(Array(3).fill(null));
+      // Cerrar cualquier diálogo abierto
+      setShowSaveDialog(false);
+      setSelectedSlot(null);
+      setSearchTerm('');
+      setSuggestions([]);
+    }
   };
 
   return (
     <div className="pokemon-team">
       <div className="team-header">
-        <h2>Mi Equipo Pokemon</h2>
+        <h2>{t('team.title')}</h2>
         <div className="team-buttons">
-          <button 
-            className="new-team-button"
-            onClick={handleNewTeam}
-          >
-            Nuevo Equipo
+          <button className="team-button new" onClick={handleNewTeam}>
+            {t('teamButtons.newTeam')}
           </button>
           <button 
             className="save-team-button"
             onClick={() => setShowSaveDialog(true)}
             disabled={!team.some(pokemon => pokemon !== null)}
           >
-            Guardar Equipo
+            {t('teamButtons.saveTeam')}
           </button>
         </div>
       </div>
@@ -191,7 +193,7 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Buscar Pokemon"
+                placeholder={t('team.searchPlaceholder')}
                 className="search-input"
                 autoComplete="off"
               />
@@ -244,6 +246,13 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {team.length === 0 && (
+        <p className="empty-team">{t('team.emptyTeam')}</p>
+      )}
+      {team.length >= 6 && (
+        <p className="team-error">{t('team.maxTeamSize')}</p>
       )}
     </div>
   );

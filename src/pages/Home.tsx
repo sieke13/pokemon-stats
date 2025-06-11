@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import GameCalendar from '../components/GameCalendar';
 import PokemonTeam from '../components/PokemonTeam';
 import BattleCounter from '../components/BattleCounter';
@@ -33,8 +34,11 @@ const Home: React.FC<HomeProps> = ({
   decrementDefeats,
   handleReset
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <div>
+    <div className="home-container">
+      <h1>{t('header.title')}</h1>
       <GameCalendar 
         playedDates={playedDates}
         onDateToggle={onDateToggle}
@@ -46,8 +50,8 @@ const Home: React.FC<HomeProps> = ({
       <BattleCounter 
         onVictory={incrementVictories}
         onDefeat={incrementDefeats}
-        onRemoveVictory={decrementVictories}
-        onRemoveDefeat={decrementDefeats}
+        onVictoryRemove={decrementVictories}
+        onDefeatRemove={decrementDefeats}
       />
       <StatsDisplay 
         victories={victories} 

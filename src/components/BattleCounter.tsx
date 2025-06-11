@@ -1,35 +1,36 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './BattleCounter.css';
 
 interface BattleCounterProps {
   onVictory: () => void;
   onDefeat: () => void;
-  onRemoveVictory: () => void;
-  onRemoveDefeat: () => void;
+  onVictoryRemove: () => void;
+  onDefeatRemove: () => void;
 }
 
 const BattleCounter: React.FC<BattleCounterProps> = ({
   onVictory,
   onDefeat,
-  onRemoveVictory,
-  onRemoveDefeat
+  onVictoryRemove,
+  onDefeatRemove
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="battle-counter">
       <div className="button-group">
         <button className="button victory" onClick={onVictory}>
-          Victoria +
+          {t('buttons.victory')}
         </button>
-        <button className="button victory-remove" onClick={onRemoveVictory}>
-          Victoria -
+        <button className="button victory-remove" onClick={onVictoryRemove}>
+          {t('buttons.victoryRemove')}
         </button>
-      </div>
-      <div className="button-group">
         <button className="button defeat" onClick={onDefeat}>
-          Derrota +
+          {t('buttons.defeat')}
         </button>
-        <button className="button defeat-remove" onClick={onRemoveDefeat}>
-          Derrota -
+        <button className="button defeat-remove" onClick={onDefeatRemove}>
+          {t('buttons.defeatRemove')}
         </button>
       </div>
     </div>
