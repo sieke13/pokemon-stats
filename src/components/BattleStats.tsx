@@ -25,8 +25,8 @@ const BattleStats: React.FC<BattleStatsProps> = ({
   
   // Pokémon GO ELO calculation based on GO Battle League (updated)
   const calculatePokemonGOELO = () => {
-    // Base rating starts at 2000 (similar to GO Battle League Ace rank)
-    let rating = 2000;
+    // Base rating más realista basado en datos reales
+    let rating = 1200; // Base inicial más baja
     
     // Calculate win rate
     const currentWinRate = totalBattles > 0 ? (victories / totalBattles) * 100 : 0;
@@ -34,63 +34,53 @@ const BattleStats: React.FC<BattleStatsProps> = ({
     // Net wins calculation
     const netWins = victories - defeats;
     
-    // Base points calculation - more realistic to GO system
-    // In GO, rating depends heavily on win rate and total battles
-    if (totalBattles >= 25) { // Minimum battles to get accurate rating
-      // Win rate impact (most important factor)
-      if (currentWinRate >= 75) rating += 600; // Exceptional win rate
-      else if (currentWinRate >= 70) rating += 450; // Very high win rate
-      else if (currentWinRate >= 65) rating += 300; // High win rate
-      else if (currentWinRate >= 60) rating += 200; // Good win rate
-      else if (currentWinRate >= 55) rating += 100; // Above average
-      else if (currentWinRate >= 50) rating += 0;   // Average
-      else if (currentWinRate >= 45) rating -= 100; // Below average
-      else if (currentWinRate >= 40) rating -= 200; // Poor win rate
-      else rating -= 350; // Very poor win rate
+    if (totalBattles >= 25) {
+      // Win rate impact (calibrado con datos reales)
+      if (currentWinRate >= 80) rating += 1800;      // Excepcional (>80%)
+      else if (currentWinRate >= 75) rating += 1500; // Muy alto (75-80%)
+      else if (currentWinRate >= 70) rating += 1200; // Alto (70-75%)
+      else if (currentWinRate >= 65) rating += 950;  // Bueno (65-70%)
+      else if (currentWinRate >= 60) rating += 750;  // Por encima del promedio (60-65%)
+      else if (currentWinRate >= 58) rating += 700;  // Ligeramente superior (58-60%)
+      else if (currentWinRate >= 55) rating += 650;  // Promedio alto (55-58%)
+      else if (currentWinRate >= 50) rating += 500;  // Promedio (50-55%)
+      else if (currentWinRate >= 45) rating += 350;  // Bajo promedio (45-50%)
+      else if (currentWinRate >= 40) rating += 200;  // Pobre (40-45%)
+      else rating += 50;                             // Muy pobre (<40%)
       
-      // Net wins bonus/penalty (secondary factor)
-      rating += netWins * 2;
+      // Net wins impact (principal factor después del win rate)
+      rating += netWins * 3.5;
       
-      // Battle volume bonus (experience matters)
-      if (totalBattles >= 500) rating += 100;
-      else if (totalBattles >= 300) rating += 60;
-      else if (totalBattles >= 200) rating += 40;
-      else if (totalBattles >= 100) rating += 20;
-      
-      // Consistency bonus for high-volume players
-      if (totalBattles >= 500 && currentWinRate >= 55) {
-        rating += 50; // Bonus for maintaining good win rate over many battles
-      }
     } else {
-      // For players with fewer battles, be more conservative
-      rating = 2000 + (netWins * 10);
+      // Para jugadores con pocas batallas
+      rating = 1200 + (netWins * 8);
     }
     
-    // Ensure rating stays within reasonable bounds
-    return Math.max(1500, Math.min(4000, Math.round(rating)));
+    // Bounds más realistas basados en datos reales
+    return Math.max(1000, Math.min(3500, Math.round(rating)));
   };
 
   const rating = calculatePokemonGOELO();
 
   // Pokémon GO Battle League Ranks (only the 4 main ranks)
   const getPokemonGORank = (rating: number) => {
-    if (rating < 2000) return { 
+    if (rating < 2500) return { 
       name: t('trainer.rank.ace'),
       icon: t('trainer.rank.bronze'),
       league: t('trainer.rank.ace'),
       description: t('trainer.rank.skilled'),
-      minRating: 0,
-      nextRating: 2000,
+      minRating: 1200,
+      nextRating: 2500,  // Corregido: Veterano es a 2500
       className: 'rank-ace'
     };
     
-    if (rating < 2500) return { 
+    if (rating < 2750) return { 
       name: t('trainer.rank.veteran'), 
       icon: t('trainer.rank.silver'),
       league: t('trainer.rank.veteran'),
       description: t('trainer.rank.skillLevel.veteran'),
-      minRating: 2000,
-      nextRating: 2500,
+      minRating: 2500,   // Corregido: Veterano empieza en 2500
+      nextRating: 2750,  // Corregido: Experto es a 2750
       className: 'rank-veteran'
     };
     
@@ -99,8 +89,8 @@ const BattleStats: React.FC<BattleStatsProps> = ({
       icon: t('trainer.rank.gold'),
       league: t('trainer.rank.expert'),
       description: t('trainer.rank.skillLevel.expert'),
-      minRating: 2500,
-      nextRating: 3000,
+      minRating: 2750,   // Corregido: Experto empieza en 2750
+      nextRating: 3000,  // Corregido: Leyenda es a 3000
       className: 'rank-expert'
     };
     
@@ -109,7 +99,7 @@ const BattleStats: React.FC<BattleStatsProps> = ({
       icon: '👑',
       league: t('trainer.rank.legend'),
       description: t('goBattleLeague.legendDescription'),
-      minRating: 3000,
+      minRating: 3000,   // Corregido: Leyenda empieza en 3000
       nextRating: null,
       className: 'rank-legend'
     };
