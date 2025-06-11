@@ -64,54 +64,60 @@
   background-color: #331f1f;
 }
 
-/* Ajustes para dispositivos móveis */
+/* Ajustes para dispositivos móviles */
 @media screen and (max-width: 768px) {
   .battle-counter {
-    padding: 1rem;
-    margin: 0.5rem;
+    padding: 0.8rem;
+    margin: 0.5rem auto;
+    width: 90%;
   }
 
   .button-group {
-    flex-direction: column;
-    gap: 0.8rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .button {
     width: 100%;
-    max-width: 300px;
-    padding: 1rem;
+    padding: 0.8rem;
     font-size: 1rem;
+    border-radius: 12px;
+    margin: 0;
+  }
+
+  /* Ajustamos el orden de los botones */
+  .victory {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .victory-remove {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .defeat {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .defeat-remove {
+    grid-column: 2;
+    grid-row: 2;
   }
 }
 
-/* Ajustes específicos para Poco F5/F6 Pro */
-@media screen and (max-width: 1080px) and (min-height: 2400px) {
+/* Ajustes para teléfonos pequeños */
+@media screen and (max-width: 360px) {
   .battle-counter {
-    padding: 1.2rem;
-    margin: 0.8rem;
-  }
-
-  .button-group {
-    gap: 1rem;
+    padding: 0.6rem;
+    width: 95%;
   }
 
   .button {
-    width: 90%;
-    max-width: 350px;
-    padding: 1.2rem;
-    font-size: 1.1rem;
-  }
-}
-
-/* Ajustes para modo landscape */
-@media screen and (max-width: 2400px) and (max-height: 1080px) {
-  .button-group {
-    flex-direction: row;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .button {
-    min-width: 150px;
+    padding: 0.7rem;
+    font-size: 0.9rem;
   }
 }

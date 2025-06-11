@@ -56,20 +56,32 @@
   background-color: #cc0000;
 }
 
-/* Ajustes para dispositivos móveis */
+/* Ajustes base para dispositivos móveis */
 @media screen and (max-width: 768px) {
   .stats-container {
     padding: 1rem;
-    margin: 0.5rem;
+    margin: 0.5rem auto;
+    width: 90%;
+    max-width: 400px;
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
   }
 
   .stat-box {
     padding: 0.8rem;
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .stat-box h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
   }
 
   .stat-box p {
@@ -78,59 +90,34 @@
 
   .reset-button {
     width: 100%;
-    max-width: 300px;
-    margin-top: 1.5rem;
-    padding: 1rem;
+    margin-top: 1rem;
+    padding: 0.8rem;
     font-size: 1rem;
   }
 }
 
-/* Ajustes específicos para Poco F5/F6 Pro (2400x1080) */
-@media screen and (max-width: 1080px) and (min-height: 2400px) {
+/* Ajustes para teléfonos pequeños */
+@media screen and (max-width: 360px) {
   .stats-container {
-    padding: 1.2rem;
-    margin: 0.8rem;
+    padding: 0.8rem;
+    margin: 0.4rem auto;
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.6rem;
   }
 
   .stat-box {
-    padding: 1.2rem;
+    padding: 0.6rem;
+    min-height: 70px;
   }
 
   .stat-box h3 {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
   }
 
   .stat-box p {
-    font-size: 2rem;
-  }
-
-  .reset-button {
-    width: 90%;
-    max-width: 350px;
-    margin-top: 2rem;
-    padding: 1.2rem;
-    font-size: 1.1rem;
-  }
-}
-
-/* Ajustes para modo landscape */
-@media screen and (max-width: 2400px) and (max-height: 1080px) {
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.8rem;
-  }
-
-  .stats-container {
-    padding: 1rem;
-  }
-
-  .reset-button {
-    margin-top: 1rem;
+    font-size: 1.3rem;
   }
 }
 
