@@ -75,40 +75,40 @@ const BattleStats: React.FC<BattleStatsProps> = ({
   // Pokémon GO Battle League Ranks (only the 4 main ranks)
   const getPokemonGORank = (rating: number) => {
     if (rating < 2000) return { 
-      name: 'Ace', // Texto directo en lugar de t()
-      icon: '🥉',
-      league: 'Ace',
-      description: 'Skilled trainer with good fundamentals',
+      name: t('trainer.rank.ace'),
+      icon: t('trainer.rank.bronze'),
+      league: t('trainer.rank.ace'),
+      description: t('trainer.rank.skilled'),
       minRating: 0,
       nextRating: 2000,
       className: 'rank-ace'
     };
     
     if (rating < 2500) return { 
-      name: 'Veteran', 
-      icon: '🥈',
-      league: 'Veteran',
-      description: 'Experienced battler with proven skill',
+      name: t('trainer.rank.veteran'), 
+      icon: t('trainer.rank.silver'),
+      league: t('trainer.rank.veteran'),
+      description: t('trainer.rank.skillLevel.veteran'),
       minRating: 2000,
       nextRating: 2500,
       className: 'rank-veteran'
     };
     
     if (rating < 3000) return { 
-      name: 'Expert', 
-      icon: '🥇',
-      league: 'Expert',
-      description: 'Expert Advanced battler with proven skill',
+      name: t('trainer.rank.expert'), 
+      icon: t('trainer.rank.gold'),
+      league: t('trainer.rank.expert'),
+      description: t('trainer.rank.skillLevel.expert'),
       minRating: 2500,
       nextRating: 3000,
       className: 'rank-expert'
     };
     
     return { 
-      name: 'Legend', 
+      name: t('trainer.rank.legend'), 
       icon: '👑',
-      league: 'Legend',
-      description: 'Legend - Top players worldwide',
+      league: t('trainer.rank.legend'),
+      description: t('goBattleLeague.legendDescription'),
       minRating: 3000,
       nextRating: null,
       className: 'rank-legend'
@@ -273,12 +273,12 @@ const BattleStats: React.FC<BattleStatsProps> = ({
                     <div className="next-rank-info">
                       <div className="progress-to-next">
                         <span className="progress-label">
-                          Progress to {nextRank.nextRating === 3000 ? 'Legend' : 
-                                     nextRank.nextRating === 2500 ? 'Expert' : 'Veteran'}
+                          {t('trainer.rank.progressTo')} {nextRank.nextRating === 3000 ? t('trainer.rank.legend') : 
+                                     nextRank.nextRating === 2500 ? t('trainer.rank.expert') : t('trainer.rank.veteran')}
                         </span>
                         <div className="progress-details">
-                          <span>~{nextRank.winsNeeded} wins needed</span>
-                          <span>({nextRank.pointsNeeded} points)</span>
+                          <span>{t('trainer.rank.winsNeeded', { wins: nextRank.winsNeeded })}</span>
+                          <span>{t('trainer.rank.points', { points: nextRank.pointsNeeded })}</span>
                         </div>
                       </div>
                       <div className="rank-progress-bar">

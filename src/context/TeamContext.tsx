@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 interface Pokemon {
   id: number;
@@ -35,23 +35,30 @@ export const TeamProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [teams]);
 
   const addTeam = useCallback((name: string) => {
-    const newTeam: Team = {
-      id: Date.now().toString(),
-      name,
-      pokemon: Array(3).fill(null)
-    };
-    
-    setTeams(prev => {
-      const updated = [...prev, newTeam];
-      console.log('Teams after adding:', updated);
-      return updated;
-    });
-    
-    // Set the new team as current immediately using the team object
-    setCurrentTeam(newTeam);
-    
-    return newTeam.id;
-  }, []);
+    // Solo agregar el equipo si tiene al menos 1 Pokémon
+    if (currentTeam && currentTeam.pokemon.some((pokemon: Pokemon | null) => pokemon !== null)) {
+      const newTeam: Team = {
+        id: Date.now().toString(),
+        name,
+        pokemon: currentTeam.pokemon
+      };
+      
+      setTeams(prev => {
+        const updated = [...prev, newTeam];
+        // Guardar en localStorage
+        localStorage.setItem('pokemonTeams', JSON.stringify(updated));
+        return updated;
+      });
+      
+      // Set the new team as current immediately using the team object
+      setCurrentTeam(newTeam);
+      
+      return newTeam.id;
+    } else {
+      alert('Cannot save empty team!');
+      return '';
+    }
+  }, [currentTeam]);
 
   const deleteTeam = useCallback((teamId: string) => {
     setTeams(prev => prev.filter(team => team.id !== teamId));
@@ -68,6 +75,24 @@ export const TeamProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setCurrentTeam(prev => prev ? { ...prev, pokemon: newPokemon } : null);
     }
   }, [currentTeam]);
+
+  // Carga inicial de equipos desde localStorage
+  useEffect(() => {
+    const savedTeams = localStorage.getItem('pokemonTeams');
+    if (savedTeams) {
+      try {
+        const parsedTeams = JSON.parse(savedTeams);
+        // Filtrar equipos válidos (que tengan al menos 1 Pokémon)
+        const validTeams = parsedTeams.filter((team: Team) => 
+          team.pokemon && team.pokemon.some((pokemon: Pokemon | null) => pokemon !== null)
+        );
+        setTeams(validTeams);
+      } catch (error) {
+        console.error('Error loading teams:', error);
+        setTeams([]);
+      }
+    }
+  }, []);
 
   return (
     <TeamContext.Provider value={{

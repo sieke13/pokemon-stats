@@ -74,11 +74,50 @@ export const en = {
     },
     team: {
       title: "My Pokemon Team",
+      savedTeams: "Saved Teams",
+      pokemonCount: "{{count}}/{{total}} Pokémon",
+      emptySlot: "Empty",
+      noTeamsMessage: "No saved teams yet. Create your first team!",
+      teamNamePlaceholder: "Team name",
+      searchPlaceholder: "Search Pokémon...",
+      emptyTeam: "Team is empty",
+      maxTeamSize: "Team is full",
       addPokemon: "Add Pokemon",
-      removePokemon: "Remove",
-      searchPlaceholder: "Search Pokemon...",
-      emptyTeam: "Your team is empty",
-      maxTeamSize: "Maximum team size reached"
+      removePokemon: "Remove"
+    },
+    teamActions: {
+      saveTeam: "Save Team",
+      newTeam: "New Team",
+      select: "Select",
+      delete: "Delete",
+      save: "Save",
+      cancel: "Cancel",
+      confirmSave: "Are you sure you want to save this team?",
+      confirmNew: "Are you sure you want to create a new team? Current team will be lost.",
+      confirmDelete: "Delete team \"{{teamName}}\"?",
+      teamSaved: "Team saved successfully!"
+    },
+    trainer: {
+      rank: {
+        ace: "Ace",
+        skilled: "Skilled trainer with good fundamentals",
+        progressTo: "Progress to Veteran",
+        winsNeeded: "~{{wins}} wins needed",
+        points: "({{points}} points)",
+        bronze: "🥉",
+        silver: "🥈",
+        gold: "🥇",
+        veteran: "Veteran",
+        expert: "Expert",
+        legend: "Legend",
+        skillLevel: {
+          beginner: "Beginner trainer",
+          skilled: "Skilled trainer with good fundamentals",
+          veteran: "Veteran trainer who knows strategies",
+          expert: "Expert who masters advanced techniques",
+          legend: "Invincible legendary trainer"
+        }
+      }
     },
     gameLog: {
       title: "Game Log",

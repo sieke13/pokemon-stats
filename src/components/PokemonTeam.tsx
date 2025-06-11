@@ -28,7 +28,7 @@ interface PokemonTeamProps {
 
 const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
   const { t } = useTranslation();
-  const { addTeam } = useTeams();
+  const { addTeam, teams, deleteTeam } = useTeams();
   const [teamName, setTeamName] = useState('');
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -125,7 +125,6 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
       addTeam(teamName); // Solo pasamos el nombre
       setTeamName('');
       setShowSaveDialog(false);
-      alert(t('teamActions.teamSaved'));
     }
   };
 
@@ -155,7 +154,7 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
           <button 
             className="save-team-button"
             onClick={() => setShowSaveDialog(true)}
-            disabled={!team.some(pokemon => pokemon !== null)}
+            disabled={!safeTeam.some(pokemon => pokemon !== null)}
           >
             {t('teamButtons.saveTeam')}
           </button>
@@ -167,23 +166,25 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
           <div key={index} className="pokemon-slot">
             {pokemon ? (
               <div className="pokemon-card">
-                {pokemon.spriteUrl && (
-                  <img 
-                    src={pokemon.spriteUrl} 
-                    alt={pokemon.name} 
-                    className="pokemon-sprite"
-                  />
-                )}
-                <div className="pokemon-info">
-                  <span className="pokemon-number">#{pokemon.pokedexNumber}</span>
-                  <span className="pokemon-name">{pokemon.name}</span>
-                </div>
-                <button 
+                <button
                   className="remove-pokemon"
-                  onClick={() => removePokemon(index)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removePokemon(index);
+                  }}
+                  title="Remove Pokemon"
                 >
                   ×
                 </button>
+                
+                <img src={pokemon.spriteUrl} alt={pokemon.name} className="pokemon-sprite" />
+                <div className="pokemon-info">
+                  {/* <span className="pokemon-name">{pokemon.name}</span>           // Azul
+                  <span className="pokemon-name-yellow">{pokemon.name}</span>    // Amarillo con texto negro
+                  <span className="pokemon-name-green">{pokemon.name}</span>     // Verde
+                  <span className="pokemon-name-purple">{pokemon.name}</span>    // Morado */}
+                  <span className="pokemon-name">{pokemon.name}</span>
+                </div>
               </div>
             ) : (
               <button 
@@ -231,12 +232,12 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
       {showSaveDialog && (
         <div className="save-dialog-overlay">
           <div className="save-dialog">
-            <h3>Guardar Equipo</h3>
+            <h3>{t('teamActions.saveTeam')}</h3>
             <input
               type="text"
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
-              placeholder="Nombre del equipo"
+              placeholder={t('team.teamNamePlaceholder')}
               className="team-name-input"
             />
             <div className="dialog-buttons">
@@ -245,7 +246,7 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
                 onClick={handleSaveTeam}
                 disabled={!teamName.trim()}
               >
-                Guardar
+                {t('teamActions.save')}
               </button>
               <button 
                 className="cancel-button"
@@ -254,18 +255,86 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
                   setTeamName('');
                 }}
               >
-                Cancelar
+                {t('teamActions.cancel')}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {team.length === 0 && (
+      {safeTeam.length === 0 && (
         <p className="empty-team">{t('team.emptyTeam')}</p>
       )}
-      {team.length >= 6 && (
+      {safeTeam.length >= 6 && (
         <p className="team-error">{t('team.maxTeamSize')}</p>
+      )}
+
+      {teams && teams.length > 0 && (
+        <div className="saved-teams-section">
+          <h3 className="saved-teams-header">{t('team.savedTeams')}</h3>
+          {teams.filter(savedTeam => {
+            return savedTeam.pokemon && savedTeam.pokemon.some(pokemon => pokemon !== null);
+          }).map((savedTeam, index) => (
+            <div key={index} className="team-item">
+              <div className="team-name">{savedTeam.name}</div>
+              <div className="team-info">
+                {savedTeam.pokemon ? 
+                  t('team.pokemonCount', { 
+                    count: savedTeam.pokemon.filter(p => p !== null).length,
+                    total: 3 
+                  }) : 
+                  t('team.pokemonCount', { count: 0, total: 3 })
+                }
+              </div>
+              
+              <div className={`team-pokemon-preview ${savedTeam.pokemon && savedTeam.pokemon.filter(p => p !== null).length < 3 ? 'incomplete' : ''}`}>
+                {savedTeam.pokemon && savedTeam.pokemon.slice(0, 3).map((pokemon, pIndex) => (
+                  pokemon ? (
+                    <div key={pIndex} className="preview-pokemon">
+                      <img src={pokemon.spriteUrl} alt={pokemon.name} />
+                      <span>{pokemon.name}</span>
+                    </div>
+                  ) : (
+                    <div key={pIndex} className="preview-pokemon">
+                      <div className="empty-slot">{t('team.emptySlot')}</div>
+                    </div>
+                  )
+                ))}
+              </div>
+
+              <div className="team-actions">
+                <button 
+                  className="select-button"
+                  onClick={() => {
+                    if (savedTeam.pokemon) {
+                      onTeamUpdate(savedTeam.pokemon);
+                    }
+                  }}
+                >
+                  {t('teamActions.select')}
+                </button>
+                <button 
+                  className="delete-button"
+                  onClick={() => {
+                    if (window.confirm(t('teamActions.confirmDelete', { teamName: savedTeam.name }))) {
+                      deleteTeam(savedTeam.id || savedTeam.name);
+                    }
+                  }}
+                >
+                  {t('teamActions.delete')}
+                </button>
+              </div>
+            </div>
+          ))}
+          
+          {teams.filter(savedTeam => 
+            savedTeam.pokemon && savedTeam.pokemon.some(pokemon => pokemon !== null)
+          ).length === 0 && (
+            <div className="no-teams-message">
+              <p>{t('team.noTeamsMessage')}</p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

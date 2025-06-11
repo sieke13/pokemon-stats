@@ -73,12 +73,53 @@ export const es = {
       }
     },
     team: {
-      title: "Mi Equipo Pokemon",
-      addPokemon: "Añadir Pokemon",
-      removePokemon: "Eliminar",
-      searchPlaceholder: "Buscar Pokemon...",
-      emptyTeam: "Tu equipo está vacío",
-      maxTeamSize: "Tamaño máximo del equipo alcanzado"
+      title: "Mi Equipo Pokémon",
+      savedTeams: "Equipos Guardados",
+      pokemonCount: "{{count}}/{{total}} Pokémon",
+      emptySlot: "Vacío",
+      noTeamsMessage: "Aún no hay equipos guardados. ¡Crea tu primer equipo!",
+      teamNamePlaceholder: "Nombre del equipo",
+      searchPlaceholder: "Buscar Pokémon...",
+      emptyTeam: "El equipo está vacío",
+      maxTeamSize: "El equipo está completo"
+    },
+    teamActions: {
+      saveTeam: "Guardar Equipo",
+      newTeam: "Nuevo Equipo",
+      select: "Seleccionar",
+      delete: "Eliminar",
+      save: "Guardar",
+      cancel: "Cancelar",
+      confirmSave: "¿Estás seguro de que quieres guardar este equipo?",
+      confirmNew: "¿Estás seguro de que quieres crear un nuevo equipo? Se perderá el equipo actual.",
+      confirmDelete: "¿Eliminar el equipo \"{{teamName}}\"?",
+      teamSaved: "¡Equipo guardado exitosamente!"
+    },
+    teamButtons: {
+      newTeam: "Nuevo Equipo",
+      saveTeam: "Guardar Equipo"
+    },
+    trainer: {
+      rank: {
+        ace: "As",
+        skilled: "Entrenador habilidoso con buenos fundamentos",
+        progressTo: "Progreso a Veterano",
+        winsNeeded: "~{{wins}} victorias necesarias",
+        points: "({{points}} puntos)",
+        bronze: "🥉",
+        silver: "🥈",
+        gold: "🥇", 
+        veteran: "Veterano",
+        expert: "Experto",
+        legend: "Leyenda",
+        skillLevel: {
+          beginner: "Entrenador principiante",
+          skilled: "Entrenador habilidoso con buenos fundamentos",
+          veteran: "Entrenador veterano que conoce estrategias",
+          expert: "Experto que domina técnicas avanzadas",
+          legend: "Entrenador legendario invencible"
+        }
+      }
     },
     gameLog: {
       title: "Registro de Juego",
@@ -96,10 +137,6 @@ export const es = {
       months: {
         june: "junio"
       }
-    },
-    teamButtons: {
-      newTeam: "Nuevo Equipo",
-      saveTeam: "Guardar Equipo"
     },
     teamManager: {
       title: "Mis Equipos Pokemon",
