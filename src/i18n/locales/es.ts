@@ -8,14 +8,24 @@ export const es = {
       victoryRemove: "Victoria -",
       defeat: "Derrota +",
       defeatRemove: "Derrota -",
-      reset: "Resetear Estadísticas"
+      reset: "Resetear Estadísticas",
+      addVictory: "Añadir Victoria",
+      addDefeat: "Añadir Derrota",
+      battleCounter: "Contador de Batallas"
     },
     stats: {
       statistics: "Estadísticas",
       victories: "Victorias",
       defeats: "Derrotas",
       winPercentage: "Porcentaje de Victoria",
+      winRate: "Tasa de Victoria",
       classification: "Clasificación",
+      battleStats: "Estadísticas de Batalla",
+      totalBattles: "Batallas Totales",
+      winStreak: "Racha de Victorias",
+      currentStreak: "Racha Actual",
+      bestStreak: "Mejor Racha",
+      performance: "Rendimiento",
       ranks: {
         normal: "Normal",
         ace: "Ace",
@@ -23,6 +33,13 @@ export const es = {
         expert: "Experto",
         legend: "Leyenda"
       }
+    },
+    battle: {
+      counter: "Contador de Batallas",
+      quickActions: "Acciones Rápidas",
+      manualEdit: "Edición Manual",
+      clickToEdit: "Haz clic para editar",
+      enterToSave: "Enter para guardar, Esc para cancelar"
     },
     nav: {
       home: "Inicio",
@@ -78,7 +95,6 @@ export const es = {
       selectDate: "Seleccionar fecha",
       months: {
         june: "junio"
-        // ...otros meses
       }
     },
     teamButtons: {
@@ -99,6 +115,19 @@ export const es = {
         accept: "Aceptar",
         cancel: "Cancelar"
       }
+    },
+    goBattleLeague: {
+      title: "Estadísticas Liga de Combates GO",
+      stats: "Estadísticas Liga de Combates GO",
+      wins: "Victorias",
+      battles: "Batallas",
+      winRate: "Tasa de Victoria",
+      rating: "Puntuación",
+      rank: "Rango",
+      legend: "Leyenda",
+      legendDescription: "Leyenda - Mejores jugadores mundiales",
+      eliteTrainer: "Entrenador Élite",
+      topPlayers: "Mejores jugadores mundiales"
     }
   }
 };

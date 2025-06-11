@@ -3,13 +3,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { useTeams } from '../context/TeamContext';
 import { useTranslation } from 'react-i18next';
 import './PokemonTeam.css';
-
-interface Pokemon {
-  id: number;
-  name: string;
-  spriteUrl?: string;
-  pokedexNumber?: number;
-}
+import { PokemonDisplay } from '../types/pokemon';
 
 interface PokemonApiResponse {
   name: string;
@@ -28,8 +22,8 @@ interface PokemonListResponse {
 }
 
 interface PokemonTeamProps {
-  team: (Pokemon | null)[];
-  onTeamUpdate: (team: (Pokemon | null)[]) => void;
+  team: (PokemonDisplay | null)[];
+  onTeamUpdate: (team: (PokemonDisplay | null)[]) => void;
 }
 
 const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
@@ -50,8 +44,8 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
         const data: PokemonListResponse = await response.json();
         setPokemonList(data.results.map(pokemon => pokemon.name));
         
-        // Initialize team with 3 null slots if empty
-        if (team.length !== 3) {
+        // Only initialize if team is empty or undefined - don't override existing team
+        if (!team || team.length === 0) {
           onTeamUpdate(Array(3).fill(null));
         }
       } catch (error) {
@@ -59,7 +53,7 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
       }
     };
     fetchPokemonList();
-  }, []);
+  }, []); // Remove team from dependencies to prevent overriding
 
   // Función para manejar la búsqueda y sugerencias
   const handleSearchChange = useCallback((value: string) => {
@@ -75,29 +69,45 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
     setSuggestions(matchingSuggestions);
   }, [pokemonList]);
 
+  // Update the addPokemon function to ensure proper team structure
   const addPokemon = useCallback((index: number, pokemonData: PokemonApiResponse) => {
-    const newTeam = [...team];
-    newTeam[index] = {
-      id: Date.now(),
+    // Ensure we have a proper team array
+    const currentTeam = team && Array.isArray(team) ? [...team] : Array(3).fill(null);
+    
+    // Ensure the team has at least the required slots
+    while (currentTeam.length <= index) {
+      currentTeam.push(null);
+    }
+    
+    currentTeam[index] = {
+      id: pokemonData.id,
       name: pokemonData.name,
       spriteUrl: pokemonData.sprites.front_default,
       pokedexNumber: pokemonData.id
     };
-    onTeamUpdate(newTeam);
+    
+    console.log('Adding Pokemon:', pokemonData.name, 'to slot:', index); // Debug log
+    onTeamUpdate(currentTeam);
   }, [team, onTeamUpdate]);
 
   // Función para seleccionar una sugerencia
   const handleSelectSuggestion = useCallback(async (pokemonName: string) => {
+    console.log('Selecting Pokemon:', pokemonName, 'for slot:', selectedSlot); // Debug log
+    
     try {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
       if (response.ok) {
         const data: PokemonApiResponse = await response.json();
+        console.log('Pokemon data received:', data); // Debug log
+        
         if (selectedSlot !== null) {
           addPokemon(selectedSlot, data);
           setSelectedSlot(null);
           setSearchTerm('');
           setSuggestions([]);
         }
+      } else {
+        console.error('Pokemon not found:', pokemonName);
       }
     } catch (error) {
       console.error('Error al obtener Pokemon:', error);
@@ -112,7 +122,7 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
 
   const handleSaveTeam = () => {
     if (window.confirm(t('teamActions.confirmSave'))) {
-      addTeam(teamName, team); // Ahora pasamos el equipo completo
+      addTeam(teamName); // Solo pasamos el nombre
       setTeamName('');
       setShowSaveDialog(false);
       alert(t('teamActions.teamSaved'));
@@ -130,6 +140,9 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
       setSuggestions([]);
     }
   };
+
+  // Update the team grid to handle undefined team
+  const safeTeam = team && Array.isArray(team) ? team : Array(3).fill(null);
 
   return (
     <div className="pokemon-team">
@@ -150,7 +163,7 @@ const PokemonTeam: React.FC<PokemonTeamProps> = ({ team, onTeamUpdate }) => {
       </div>
 
       <div className="team-grid">
-        {team.map((pokemon, index) => (
+        {safeTeam.map((pokemon, index) => (
           <div key={index} className="pokemon-slot">
             {pokemon ? (
               <div className="pokemon-card">

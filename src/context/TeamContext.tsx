@@ -1,77 +1,82 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 interface Pokemon {
   id: number;
   name: string;
   nickname?: string;
-  spriteUrl?: string;
-  pokedexNumber?: number;
+  spriteUrl: string;
+  pokedexNumber: number;
 }
 
-interface PokemonTeam {
+interface Team {
   id: string;
   name: string;
   pokemon: (Pokemon | null)[];
-  createdAt: Date;
 }
 
 interface TeamContextType {
-  teams: PokemonTeam[];
-  currentTeam: PokemonTeam | null;
-  addTeam: (name: string, pokemon: (Pokemon | null)[]) => void;
-  updateTeam: (id: string, pokemon: (Pokemon | null)[]) => void;
-  deleteTeam: (id: string) => void;
-  setCurrentTeam: (id: string) => void;
+  teams: Team[];
+  currentTeam: Team | null;
+  setCurrentTeam: (teamId: string) => void;
+  addTeam: (name: string) => string; // Returns team ID
+  deleteTeam: (teamId: string) => void;
+  updateTeam: (teamId: string, newPokemon: (Pokemon | null)[]) => void;
 }
 
-export const TeamContext = createContext<TeamContextType | null>(null);
+const TeamContext = createContext<TeamContextType | undefined>(undefined);
 
 export const TeamProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [teams, setTeams] = useState<PokemonTeam[]>(() => {
-    const stored = localStorage.getItem('pokemonTeams');
-    return stored ? JSON.parse(stored) : [];
-  });
-  const [currentTeam, setCurrentTeam] = useState<PokemonTeam | null>(null);
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [currentTeam, setCurrentTeam] = useState<Team | null>(null);
 
-  useEffect(() => {
-    localStorage.setItem('pokemonTeams', JSON.stringify(teams));
+  const handleSetCurrentTeam = useCallback((teamId: string) => {
+    const team = teams.find(t => t.id === teamId) || null;
+    setCurrentTeam(team);
   }, [teams]);
 
-  const addTeam = (name: string, pokemon: (Pokemon | null)[]) => {
-    const newTeam: PokemonTeam = {
+  const addTeam = useCallback((name: string) => {
+    const newTeam: Team = {
       id: Date.now().toString(),
       name,
-      pokemon,
-      createdAt: new Date()
+      pokemon: Array(3).fill(null)
     };
-    setTeams([...teams, newTeam]);
+    
+    setTeams(prev => {
+      const updated = [...prev, newTeam];
+      console.log('Teams after adding:', updated);
+      return updated;
+    });
+    
+    // Set the new team as current immediately using the team object
     setCurrentTeam(newTeam);
-  };
+    
+    return newTeam.id;
+  }, []);
 
-  const updateTeam = (id: string, pokemon: (Pokemon | null)[]) => {
-    setTeams(teams.map(team => 
-      team.id === id ? { ...team, pokemon } : team
-    ));
-  };
-
-  const deleteTeam = (id: string) => {
-    setTeams(teams.filter(team => team.id !== id));
-    if (currentTeam?.id === id) {
+  const deleteTeam = useCallback((teamId: string) => {
+    setTeams(prev => prev.filter(team => team.id !== teamId));
+    if (currentTeam?.id === teamId) {
       setCurrentTeam(null);
     }
-  };
+  }, [currentTeam]);
+
+  const updateTeam = useCallback((teamId: string, newPokemon: (Pokemon | null)[]) => {
+    setTeams(prev => prev.map(team => 
+      team.id === teamId ? { ...team, pokemon: newPokemon } : team
+    ));
+    if (currentTeam?.id === teamId) {
+      setCurrentTeam(prev => prev ? { ...prev, pokemon: newPokemon } : null);
+    }
+  }, [currentTeam]);
 
   return (
     <TeamContext.Provider value={{
       teams,
       currentTeam,
+      setCurrentTeam: handleSetCurrentTeam,
       addTeam,
-      updateTeam,
       deleteTeam,
-      setCurrentTeam: (id: string) => {
-        const team = teams.find(t => t.id === id);
-        setCurrentTeam(team || null);
-      }
+      updateTeam
     }}>
       {children}
     </TeamContext.Provider>

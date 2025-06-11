@@ -1,0 +1,75 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c2f36 0%, #1e1f26 25%, #16171d 50%, #0d0e13 75%, #000000 100%);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.home-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(244, 67, 54, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(76, 175, 80, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.home-container h1 {
+  color: #ffc107;
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  text-shadow: 
+    0 0 15px rgba(255, 193, 7, 0.4),
+    2px 2px 6px rgba(0, 0, 0, 0.8);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+/* Container for all components */
+.home-container > * {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .home-container h1 {
+    font-size: 2em;
+  }
+  
+  .home-container > * {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .home-container h1 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+  }
+}

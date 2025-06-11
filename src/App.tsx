@@ -7,19 +7,10 @@ import { TeamProvider } from './context/TeamContext';
 import Teams from './pages/Teams';
 import Home from './pages/Home';
 
-interface Pokemon {
-  id: number;
-  name: string;
-  nickname?: string;
-  spriteUrl?: string;
-  pokedexNumber?: number;
-}
-
 interface StoredData {
   victories: number;
   defeats: number;
   playedDates: string[];
-  team: (Pokemon | null)[];
 }
 
 const App: React.FC = () => {
@@ -50,27 +41,14 @@ const App: React.FC = () => {
       : [];
   });
 
-  const [team, setTeam] = useState<(Pokemon | null)[]>(() => {
-    const stored = localStorage.getItem('pokemonStats');
-    return stored 
-      ? JSON.parse(stored).team || Array(6).fill(null)
-      : Array(6).fill(null);
-  });
-
   useEffect(() => {
     const data: StoredData = {
       victories,
       defeats,
       playedDates: playedDates.map(date => date.toISOString()),
-      team
     };
     localStorage.setItem('pokemonStats', JSON.stringify(data));
-  }, [victories, defeats, playedDates, team]);
-
-  const incrementVictories = () => setVictories(victories + 1);
-  const incrementDefeats = () => setDefeats(defeats + 1);
-  const decrementVictories = () => setVictories(Math.max(0, victories - 1));
-  const decrementDefeats = () => setDefeats(Math.max(0, defeats - 1));
+  }, [victories, defeats, playedDates]);
 
   const totalBattles = victories + defeats;
   const winPercentage = totalBattles > 0 ? (victories / totalBattles) * 100 : 0;
@@ -99,12 +77,31 @@ const App: React.FC = () => {
     setVictories(0);
     setDefeats(0);
     setPlayedDates([]);
-    setTeam(Array(6).fill(null));
     localStorage.removeItem('pokemonStats');
   };
 
-  const handleTeamUpdate = (newTeam: (Pokemon | null)[]) => {
-    setTeam(newTeam);
+  const handleVictory = () => {
+    setVictories((prev: number) => prev + 1);
+  };
+
+  const handleDefeat = () => {
+    setDefeats((prev: number) => prev + 1);
+  };
+
+  const handleVictoryRemove = () => {
+    setVictories((prev: number) => Math.max(0, prev - 1));
+  };
+
+  const handleDefeatRemove = () => {
+    setDefeats((prev: number) => Math.max(0, prev - 1));
+  };
+
+  const handleManualUpdate = (type: 'victories' | 'defeats', value: number) => {
+    if (type === 'victories') {
+      setVictories(value);
+    } else {
+      setDefeats(value);
+    }
   };
 
   return (
@@ -120,14 +117,13 @@ const App: React.FC = () => {
                   defeats={defeats}
                   winPercentage={winPercentage}
                   playedDates={playedDates}
-                  team={team}
                   onDateToggle={handleDateToggle}
-                  onTeamUpdate={handleTeamUpdate}
-                  incrementVictories={incrementVictories}
-                  incrementDefeats={incrementDefeats}
-                  decrementVictories={decrementVictories}
-                  decrementDefeats={decrementDefeats}
+                  incrementVictories={handleVictory}
+                  incrementDefeats={handleDefeat}
+                  decrementVictories={handleVictoryRemove}
+                  decrementDefeats={handleDefeatRemove}
                   handleReset={handleReset}
+                  onManualUpdate={handleManualUpdate}
                 />
               } />
               <Route path="/teams" element={<Teams />} />
